@@ -1,4 +1,4 @@
-var catalog = [
+export var catalog = [
     {
         "name" : "Olympus OM-10",
         "description" : "Le gage de qualité, tout terrain",
