@@ -1,21 +1,17 @@
-"use strict";
-
-$(function(){
-	export function search()
+export function search()
 	{
-		$('#search').change(function(){
-			var toSearch = this.val()
-			if (this.value() != ""){
-				$('#catalogue li').each(function(article){
-					if (article.data("name").toLowerCase().includes(toSearch.toLowerCase()))
-						article.show();
+		$('#search').on("input",function(){
+			var toSearch = this.value;
+			if (toSearch != ""){
+				$('#catalogue div').each(function(article){
+					var name = $(this).find("h3")[0].textContent;
+					if (name.toLowerCase().includes(toSearch.toLowerCase()))
+						$(this).show();
 					else
-						article.hide();
+						$(this).hide();
 				});
 					
 			}
 			
 		});
 	}
-	
-});

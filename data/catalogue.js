@@ -1,4 +1,4 @@
-export var catalog = [
+var catalog = [
     {
         "name" : "Olympus OM-10",
         "description" : "Le gage de qualité, tout terrain",
@@ -8,7 +8,7 @@ export var catalog = [
     {
         "name" : "Nikon F100",
         "description" : "Le reflex semi-pro",
-        "image" : "dta/images/NikonF100.jpg",
+        "image" : "data/images/NikonF100.png",
         "price" : "80",
     },
     {
@@ -56,7 +56,9 @@ export var catalog = [
     {
         "name" : "Kiev 60",
         "description" : "Le moyen format, version soviétique",
-        "image" : "images/Kiev60.jpg",
+        "image" : "data/images/Kiev60.jpg",
         "price" : "15",
     }
 ]
+
+export {catalog};
