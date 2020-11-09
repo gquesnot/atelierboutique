@@ -1,14 +1,28 @@
 "use strict";
 
 $(function(){
-	var catalog = [{
-		"name":"test",
-		"image": "images/test.jpg",
-		"price": "50"
-	},
-	{
-		"name":"test2",
-		"image":"images/test2.jpg",
-		"price": "40"
-	}];
+	
+
+	var baseCatalog = catalog;
+
+	
+
+
+	/*$('#search').change(function(){
+		var search = this.val()
+		if (this.value() != ""){
+			$('#catalog li').each(function(article){
+				if (article.name.includes(this.value()))
+					
+
+			});
+		}
+		
+	});*/
+
+	function setCatalog(catalogId){
+		import 
+	}
+
+
 });
