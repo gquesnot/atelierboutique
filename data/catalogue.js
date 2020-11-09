@@ -1,4 +1,4 @@
-var catalog = [
+const catalog = [
     {
         "name" : "Olympus OM-10",
         "description" : "Le gage de qualité, tout terrain",
@@ -61,4 +61,4 @@ var catalog = [
     }
 ]
 
-export {catalog};
+export { catalog };
