@@ -21,11 +21,10 @@ export const addToCartEvent = () => {
 };
 
 export const addToCart = (elem) => {
-    var id  = elem.currentTarget.dataset.id
+    var id  = elem.currentTarget.dataset.id;
     var panierArray=  JSON.parse(localStorage.getItem("panier"));
     var panierItem;
     var idx;
-    console.log(panierArray);
     panierArray.forEach((value, index)=>{
     	if (value.id == id)
     	{
@@ -42,6 +41,9 @@ export const addToCart = (elem) => {
     else if (panierItem.quantity >= 9)
     {
     	console.log("already 9 items");
+    	console.log(elem);
+    	$(elem.currentTarget).prop("disabled",true);
+    	$(elem.currentTarget).css("opacity", "0.25");
     }
     else{
     	panierItem.quantity += 1;
@@ -49,4 +51,19 @@ export const addToCart = (elem) => {
     }
     
     localStorage.setItem("panier", JSON.stringify(panierArray));
+};
+
+
+
+export const removeFromCart = (elem) => {
+	var id = elem.currentTarget.dataset.id;
+	var panierArray=  JSON.parse(localStorage.getItem("panier"));
+	panierArray.forEach((value, index) => {
+		if (value.id == id)
+		{
+			panierArray.splice(index, 1);
+			break;
+		}
+	});
+	localStorage.setItem("panier", JSON.stringify(panierArray));
 };
