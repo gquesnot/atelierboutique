@@ -18,3 +18,11 @@ export function search()
 			});
 		});
 	}
+
+/* export const sidebar = () => {
+
+	const sidebarElt = document.getElementsById("sidebar");
+
+	sidebarElt.innerHTML
+}
+ */

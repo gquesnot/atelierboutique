@@ -62,7 +62,7 @@ export const removeFromCart = (elem) => {
 		if (value.id == id)
 		{
 			panierArray.splice(index, 1);
-			break;
+			//break;
 		}
 	});
 	localStorage.setItem("panier", JSON.stringify(panierArray));
