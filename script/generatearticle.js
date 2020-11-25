@@ -23,9 +23,13 @@ export function generateArticle(id)
 							<h5 class="card-title">${ article.name }</h5>
 							<p class="card-text">${ article.description }</p>
 						</div>
-						<div class="card-footer d-flex justify-content-between">
-							<div class="text-muted align-self-center">${ article.price } €</div>
-							<button type="button" class="btn btn-primary btn-add-to-cart" >Ajouter <i class="fas fa-cart-plus"></i></button>
+						<div class="card-footer">
+							<div class="row justify-content-around">
+								<div class="text-muted align-self-center col-">${ article.price } €</div>
+								<input type="number" class="form-control col- w-25" min="0" max="9">
+								<button type="button" class="btn btn-primary btn-add-to-cart col-6" data-set="">Ajouter <i class="fas fa-cart-plus"></i></button>
+							</div>
+
 						</div>
 					</div>
 				</div>
