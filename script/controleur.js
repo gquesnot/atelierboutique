@@ -10,7 +10,8 @@ $(function(){
 	generateArticle(1);
 	search();
 	addToCartEvent();
-
+	var panierArray = JSON.parse(localStorage.getItem("panier")) || [];
+	localStorage.setItem("panier", JSON.stringify(panierArray));
 	
 
 

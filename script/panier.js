@@ -20,8 +20,33 @@ export const addToCartEvent = () => {
     
 };
 
-export const addToCart = () => {
+export const addToCart = (elem) => {
+    var id  = elem.currentTarget.dataset.id
+    var panierArray=  JSON.parse(localStorage.getItem("panier"));
+    var panierItem;
+    var idx;
+    console.log(panierArray);
+    panierArray.forEach((value, index)=>{
+    	if (value.id == id)
+    	{
+    		idx= index;
+    		panierItem = value;
+    	}
+    });
     
-    console.log(elem.currentTarget.dataset.id);
-
+    if (panierItem == undefined)
+    {
+    	panierItem = {id: id, quantity: 1};
+    	panierArray.push(panierItem);
+    }
+    else if (panierItem.quantity >= 9)
+    {
+    	console.log("already 9 items");
+    }
+    else{
+    	panierItem.quantity += 1;
+    	panierArray[idx]=  panierItem;
+    }
+    
+    localStorage.setItem("panier", JSON.stringify(panierArray));
 };
