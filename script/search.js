@@ -6,9 +6,10 @@ export function search()
 			//valeur de #search
 			var toSearch = $(this).val();
 			// pour chaque div dans #catalogue
-			$('#catalogue div').each(function(article){
+
+			$('#catalogue .card').parent().each(function(article){
 				// name = text dans le h3 de l'article
-				var name = $(this).find("h3")[0].textContent;
+				var name = $(this).find("h5")[0].textContent;
 				// La méthode includes() détermine si une chaîne de caractères est contenue dans une autre
 				if (name.toLowerCase().includes(toSearch.toLowerCase()))
 					$(this).show();
