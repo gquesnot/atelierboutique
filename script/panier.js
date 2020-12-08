@@ -48,7 +48,7 @@ export const addToCart = (elem) => {
                 </div>
                 <div class="text-decoration-none text-body">
                     <div>${catalog[id].name}</div>
-                    <div class="price">Prix: ${catalog[id].price} €</div>
+                    <div class="price">Prix: ${catalog[id].price * panierItem.quantity} €</div>
                     <div class="quantity">Quantité: ${panierItem.quantity} </div>
                 </div>
                 <div>
