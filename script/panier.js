@@ -26,6 +26,7 @@ export const addToCart = (elem) => {
     var panierArray=  JSON.parse(localStorage.getItem("panier"));
     var panierItem;
     var idx;
+    
     panierArray.forEach((value, index)=>{
         if (value.id == id)
         {
@@ -33,10 +34,12 @@ export const addToCart = (elem) => {
             panierItem = value;
         }
     });
-    
+    $(elem.target.previousElementSibling).attr('max' ,  $(elem.target.previousElementSibling).attr('max') - parseInt($(elem.target.previousElementSibling).val()));
     if (panierItem == undefined)
     {
-        panierItem = {id: id, quantity: 1};
+        console.log(parseInt($(elem.target.previousElementSibling).val()))
+        
+        panierItem = {id: id, quantity: parseInt($(elem.target.previousElementSibling).val())};
         panierArray.push(panierItem);
         $('#panier').append(`
             <li  class="container d-flex justify-content-between lh-condensed align-items-center">
@@ -46,7 +49,7 @@ export const addToCart = (elem) => {
                 <div class="text-decoration-none text-body">
                     <div>${catalog[id].name}</div>
                     <div class="price">Prix: ${catalog[id].price} €</div>
-                    <div class="quantity">Quantité: 1</div>
+                    <div class="quantity">Quantité: ${panierItem.quantity} </div>
                 </div>
                 <div>
                     <button data-id="${id}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
@@ -54,9 +57,10 @@ export const addToCart = (elem) => {
             </li>
         `);
         $('#panier li button').click(removeFromCart);
+
     }
-    else if (panierItem.quantity <= 9){
-        panierItem.quantity += 1;
+    else if (panierItem.quantity + parseInt($(elem.target.previousElementSibling).val()) <= 9){
+        panierItem.quantity  += parseInt($(elem.target.previousElementSibling).val());
         panierArray[idx]=  panierItem;
         $('#panier li button').each((index, value) =>{
             if (value.dataset.id == id)
@@ -80,19 +84,16 @@ export const addToCart = (elem) => {
 export const removeFromCart = (elem) => {
     var id = elem.currentTarget.dataset.id;
     var panierArray=  JSON.parse(localStorage.getItem("panier"));
+
     $(elem.currentTarget).parent().parent().remove();
     panierArray.forEach((value, index) => {
         if (value.id == id)
         {
             panierArray.splice(index, 1);
-            $(".btn-add-to-cart").each((index, value) => {
-                if (value.dataset.id == id)
-                {
-                    $(value).prop("disabled",false);
-                    $(value).css("opacity", "1");
-                }
-            });
-            
+            $($('.btn-add-to-cart').get(value.id)).prop("disabled", false);
+            $($('.btn-add-to-cart').get(value.id)).css("opacity","1");
+            $($($('.btn-add-to-cart').get(id))[0].previousElementSibling).attr('max', 9);
+
         }
     });
     localStorage.setItem("panier", JSON.stringify(panierArray));
@@ -127,6 +128,7 @@ export const generatePanier =  () =>{
                 $($('.btn-add-to-cart').get(value.id)).prop("disabled", true);
                 $($('.btn-add-to-cart').get(value.id)).css("opacity","0.25");
             }
+            $($($('.btn-add-to-cart').get(value.id))[0].previousElementSibling).attr('max', 9 - value.quantity);
         });
     }
     localStorage.setItem("panier", JSON.stringify(panierArray));

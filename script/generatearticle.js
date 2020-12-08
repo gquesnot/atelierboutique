@@ -26,7 +26,7 @@ export function generateArticle(id)
 						<div class="card-footer">
 							<div class="row justify-content-around">
 								<div class="text-muted align-self-center col-">${ article.price } €</div>
-								<input type="number" class="form-control col- w-25" min="0" max="9">
+								<input type="number" class="form-control col- w-25" min="1" max="9" value="1">
 								<button type="button" class="btn btn-primary btn-add-to-cart col-6" data-set="">Ajouter <i class="fas fa-cart-plus"></i></button>
 							</div>
 
