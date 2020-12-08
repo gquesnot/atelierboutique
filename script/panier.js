@@ -34,14 +34,12 @@ export const addToCart = (elem) => {
             panierItem = value;
         }
     });
-    $('#total')[0].textContent = parseInt($('#total')[0].textContent) + ($(elem.target.previousElementSibling).val() * catalog[id].price);
-    $(elem.target.previousElementSibling).attr('max' ,  $(elem.target.previousElementSibling).attr('max') - parseInt($(elem.target.previousElementSibling).val()));
+    $('#total')[0].textContent = parseInt($('#total')[0].textContent) + (elem.currentTarget.previousElementSibling.valueAsNumber * catalog[id].price);
+    $(elem.target.previousElementSibling).attr('max' ,  $(elem.currentTarget.previousElementSibling).attr('max') - elem.currentTarget.previousElementSibling.valueAsNumber);
     
     if (panierItem == undefined)
-    {
-        console.log(parseInt($(elem.target.previousElementSibling).val()))
-        
-        panierItem = {id: id, quantity: parseInt($(elem.target.previousElementSibling).val())};
+    {   
+        panierItem = {id: id, quantity: elem.currentTarget.previousElementSibling.valueAsNumber};
         panierArray.push(panierItem);
         $('#panier').append(`
             <li  class="container d-flex justify-content-between lh-condensed align-items-center">
@@ -80,6 +78,7 @@ export const addToCart = (elem) => {
     }
     $(elem.target.previousElementSibling).val(1);
     localStorage.setItem("panier", JSON.stringify(panierArray));
+    ifEmptyCart();
 };
 
 
@@ -102,6 +101,7 @@ export const removeFromCart = (elem) => {
     });
 
     localStorage.setItem("panier", JSON.stringify(panierArray));
+    ifEmptyCart();
 };
 
 
@@ -112,7 +112,6 @@ export const generatePanier =  () =>{
     if (panierArray != [])
     {
         panierArray.forEach((value, index) =>{
-            console.log(value);
             $('#panier').append(`
                 <li  class="container d-flex justify-content-between lh-condensed align-items-center">
                     <div class="w-25">
@@ -138,7 +137,6 @@ export const generatePanier =  () =>{
             $($($('.btn-add-to-cart').get(value.id))[0].previousElementSibling).attr('max', 9 - value.quantity);
         });
     }
-    console.log($("#total")[0])
     $('#total')[0].textContent = total;
     localStorage.setItem("panier", JSON.stringify(panierArray));
     ifEmptyCart();
@@ -147,7 +145,6 @@ export const generatePanier =  () =>{
 export const ifEmptyCart = () => {
     const panierArray = JSON.parse(localStorage.getItem("panier")) || [];
 
-    console.log(panierArray);
 
     if (!panierArray || panierArray.length < 1) {
         
