@@ -1,25 +1,53 @@
-#sidebar.active {
-    margin-left: -250px;
+#wrapper {
+  overflow-x: hidden;
 }
 
-#sidebar {
-    min-width: 250px;
-    max-width: 250px;
-    min-height: 100vh;
-    color: #fff;
-    transition: all 0.3s;
-    left: 100%;
+#sidebar-wrapper {
+min-height: 100vh;
+-webkit-transition: margin .25s ease-out;
+-moz-transition: margin .25s ease-out;
+-o-transition: margin .25s ease-out;
+transition: margin .25s ease-out;
+min-width: 250px;
+max-width: 250px;
+color: #000;
+border-right: none!important;
+border-left: 1px solid #dee2e6;
 }
 
-#sidebar .sidebar-header {
-    position: fixed;
-    top: 0;
+#sidebar-wrapper .sidebar-heading {
+padding: 0.875rem 1.25rem;
+font-size: 1.2rem;
+}
 
-@media (max-width: 768px) {
-    #sidebar {
-        margin-left: -250px;
-    }
-    #sidebar.active {
-        margin-left: 0;
-    }
+#wrapper.toggled #sidebar-wrapper {
+margin-right: 0;
+}
+
+@media (max-width: 1024px) {
+#sidebar-wrapper {
+  margin-left: 0;
+}
+
+#page-content-wrapper {
+  min-width: 0;
+  width: 100%;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-right: -250px;
+}
+
+}
+
+@media (min-width: 1024px) {
+#sidebarCollapse {
+  display: none;
+}
+}
+
+@media (max-width: 800px) {
+#buttonCartText {
+  display: none;
+}
 }
