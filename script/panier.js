@@ -34,7 +34,9 @@ export const addToCart = (elem) => {
             panierItem = value;
         }
     });
+    $('#total')[0].textContent = parseInt($('#total')[0].textContent) + ($(elem.target.previousElementSibling).val() * catalog[id].price);
     $(elem.target.previousElementSibling).attr('max' ,  $(elem.target.previousElementSibling).attr('max') - parseInt($(elem.target.previousElementSibling).val()));
+    
     if (panierItem == undefined)
     {
         console.log(parseInt($(elem.target.previousElementSibling).val()))
@@ -67,6 +69,7 @@ export const addToCart = (elem) => {
             {
                 $(value).parent().parent().find('.price')[0].textContent = 'Prix: ' + catalog[id].price * panierItem.quantity;
                 $(value).parent().parent().find('.quantity')[0].textContent = 'Quantité: ' + panierItem.quantity;
+
             }
         });
     }
@@ -75,7 +78,7 @@ export const addToCart = (elem) => {
         $(elem.currentTarget).prop("disabled",true);
         $(elem.currentTarget).css("opacity", "0.25");
     }
-    
+    $(elem.target.previousElementSibling).val(1);
     localStorage.setItem("panier", JSON.stringify(panierArray));
 };
 
@@ -93,9 +96,11 @@ export const removeFromCart = (elem) => {
             $($('.btn-add-to-cart').get(value.id)).prop("disabled", false);
             $($('.btn-add-to-cart').get(value.id)).css("opacity","1");
             $($($('.btn-add-to-cart').get(id))[0].previousElementSibling).attr('max', 9);
+            $('#total')[0].textContent = parseInt($('#total')[0].textContent) - (value.quantity * catalog[id].price);
 
         }
     });
+
     localStorage.setItem("panier", JSON.stringify(panierArray));
 };
 
@@ -103,6 +108,7 @@ export const removeFromCart = (elem) => {
 
 export const generatePanier =  () =>{
     var panierArray = JSON.parse(localStorage.getItem("panier")) || [];
+    var total = 0;
     if (panierArray != [])
     {
         panierArray.forEach((value, index) =>{
@@ -122,6 +128,7 @@ export const generatePanier =  () =>{
                     </div>
                 </li>
             `);
+            total += catalog[value.id].price * value.quantity;
             $('#panier li button').click(removeFromCart);
             if (value.quantity >= 9)
             {
@@ -131,6 +138,8 @@ export const generatePanier =  () =>{
             $($($('.btn-add-to-cart').get(value.id))[0].previousElementSibling).attr('max', 9 - value.quantity);
         });
     }
+    console.log($("#total")[0])
+    $('#total')[0].textContent = total;
     localStorage.setItem("panier", JSON.stringify(panierArray));
     ifEmptyCart();
 };
