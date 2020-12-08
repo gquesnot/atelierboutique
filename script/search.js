@@ -19,6 +19,14 @@ export function search()
 		});
 	}
 
+	$(document).ready(function () {
+
+		$('#sidebarCollapse').on('click', function () {
+			$('#sidebar').toggleClass('active');
+		});
+	
+	});
+
 /* export const sidebar = () => {
 
 	const sidebarElt = document.getElementsById("sidebar");
