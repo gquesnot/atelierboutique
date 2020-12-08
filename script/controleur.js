@@ -1,7 +1,7 @@
 import { catalog } from "../data/catalogue.js";
 import { search } from "./search.js";
 import { generateArticle } from "./generatearticle.js";
-import { addToCartEvent, addToCart, removeFromCart, generatePanier } from "./panier.js";
+import { addToCartEvent, addToCart, removeFromCart, generatePanier, ifEmptyCart } from "./panier.js";
 
 
 $(function(){
@@ -11,6 +11,7 @@ $(function(){
 	search();
 	addToCartEvent();
 
+	ifEmptyCart();
 	generatePanier();
 	var panierArray = JSON.parse(localStorage.getItem("panier")) || [];
 	localStorage.setItem("panier", JSON.stringify(panierArray));

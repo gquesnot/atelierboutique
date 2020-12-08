@@ -132,4 +132,18 @@ export const generatePanier =  () =>{
         });
     }
     localStorage.setItem("panier", JSON.stringify(panierArray));
+    ifEmptyCart();
 };
+
+export const ifEmptyCart = () => {
+    const panierArray = JSON.parse(localStorage.getItem("panier")) || [];
+
+    console.log(panierArray);
+
+    if (!panierArray || panierArray.length < 1) {
+        
+        $("#sidebar-wrapper").hide();
+    } else {
+        $("#sidebar-wrapper").show();
+    }
+}
