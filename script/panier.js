@@ -1,3 +1,4 @@
+import { catalog } from "../data/catalogue.js";
 
 export const addToCartEvent = () => {
 
@@ -26,28 +27,49 @@ export const addToCart = (elem) => {
     var panierItem;
     var idx;
     panierArray.forEach((value, index)=>{
-    	if (value.id == id)
-    	{
-    		idx= index;
-    		panierItem = value;
-    	}
+        if (value.id == id)
+        {
+            idx= index;
+            panierItem = value;
+        }
     });
     
     if (panierItem == undefined)
     {
-    	panierItem = {id: id, quantity: 1};
-    	panierArray.push(panierItem);
+        panierItem = {id: id, quantity: 1};
+        panierArray.push(panierItem);
+        $('#panier').append(`
+            <li  class="container d-flex justify-content-between lh-condensed align-items-center">
+                <div class="w-25">
+                    <img src="${catalog[id].image}" alt="${catalog[id].name}" class="img-fluid rounded">
+                </div>
+                <div class="text-decoration-none text-body">
+                    <div>${catalog[id].name}</div>
+                    <div class="price">Prix: ${catalog[id].price} €</div>
+                    <div class="quantity">Quantité: 1</div>
+                </div>
+                <div>
+                    <button data-id="${id}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
+                </div>
+            </li>
+        `);
+        $('#panier li button').click(removeFromCart);
     }
-    else if (panierItem.quantity >= 9)
+    else if (panierItem.quantity <= 9){
+        panierItem.quantity += 1;
+        panierArray[idx]=  panierItem;
+        $('#panier li button').each((index, value) =>{
+            if (value.dataset.id == id)
+            {
+                $(value).parent().parent().find('.price')[0].textContent = 'Prix: ' + catalog[id].price * panierItem.quantity;
+                $(value).parent().parent().find('.quantity')[0].textContent = 'Quantité: ' + panierItem.quantity;
+            }
+        });
+    }
+    if (panierItem.quantity >= 9)
     {
-    	console.log("already 9 items");
-    	console.log(elem);
-    	$(elem.currentTarget).prop("disabled",true);
-    	$(elem.currentTarget).css("opacity", "0.25");
-    }
-    else{
-    	panierItem.quantity += 1;
-    	panierArray[idx]=  panierItem;
+        $(elem.currentTarget).prop("disabled",true);
+        $(elem.currentTarget).css("opacity", "0.25");
     }
     
     localStorage.setItem("panier", JSON.stringify(panierArray));
@@ -56,14 +78,56 @@ export const addToCart = (elem) => {
 
 
 export const removeFromCart = (elem) => {
-	var id = elem.currentTarget.dataset.id;
-	var panierArray=  JSON.parse(localStorage.getItem("panier"));
-	panierArray.forEach((value, index) => {
-		if (value.id == id)
-		{
-			panierArray.splice(index, 1);
-			//break;
-		}
-	});
-	localStorage.setItem("panier", JSON.stringify(panierArray));
+    var id = elem.currentTarget.dataset.id;
+    var panierArray=  JSON.parse(localStorage.getItem("panier"));
+    $(elem.currentTarget).parent().parent().remove();
+    panierArray.forEach((value, index) => {
+        if (value.id == id)
+        {
+            panierArray.splice(index, 1);
+            $(".btn-add-to-cart").each((index, value) => {
+                if (value.dataset.id == id)
+                {
+                    $(value).prop("disabled",false);
+                    $(value).css("opacity", "1");
+                }
+            });
+            
+        }
+    });
+    localStorage.setItem("panier", JSON.stringify(panierArray));
+};
+
+
+
+export const generatePanier =  () =>{
+    var panierArray = JSON.parse(localStorage.getItem("panier")) || [];
+    if (panierArray != [])
+    {
+        panierArray.forEach((value, index) =>{
+            console.log(value);
+            $('#panier').append(`
+                <li  class="container d-flex justify-content-between lh-condensed align-items-center">
+                    <div class="w-25">
+                        <img src="${catalog[value.id].image}" alt="${catalog[value.id].name}" class="img-fluid rounded">
+                    </div>
+                    <div class="text-decoration-none text-body">
+                        <div>${catalog[value.id].name}</div>
+                        <div class="price">Prix:${catalog[value.id].price * value.quantity} €</div>
+                        <div class="quantity">Quantité: ${value.quantity}</div>
+                    </div>
+                    <div>
+                        <button data-id="${value.id}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
+                    </div>
+                </li>
+            `);
+            $('#panier li button').click(removeFromCart);
+            if (value.quantity >= 9)
+            {
+                $($('.btn-add-to-cart').get(value.id)).prop("disabled", true);
+                $($('.btn-add-to-cart').get(value.id)).css("opacity","0.25");
+            }
+        });
+    }
+    localStorage.setItem("panier", JSON.stringify(panierArray));
 };
