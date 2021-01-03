@@ -41,19 +41,22 @@
 		<aside class="d-flex" id="wrapper">
 			<div id="page-content-wrapper">
 				<div class="container-fluid">
-					<div id="catalogue" class="row"></div>
+					<div id="catalogue" class="row row-cols-1 row-cols-lg-3"></div>
 				</div>
 			</div>
 			<!-- Sidebar -->
-			<div class="bg-light border-right" id="sidebar-wrapper">
-			  <div class="sidebar-heading">Panier</div>
-			  <div class="list-group list-group-flush">
-				<div class="p-2">Total : <span id="total"></span> €</div>
-				
-				<div class="p-2" id="panier">Panier : 
-					
+			<div id="sidebar-wrapper">
+				<h1 class="h4 d-flex justify-content-between align-items-center p-4" id="empty-cart-text-parent-js">
+					<span class="text-muted" id="empty-cart-text-js">Votre panier</span>
+					<span class="badge badge-secondary badge-pill" id="cartCounter"></span>
+				</h1>
+				<div class="list-group list-group-flush">
+					<div class="p-2" id="panier"></div>
+					<li class="list-group-item d-flex justify-content-between mt-3" id="empty-cart-price-js">
+						<span>Total (EUR)</span>
+						<strong><span id="total"></span> €</strong>
+					</li>
 				</div>
-			  </div>
 			</div>
 			
 		

@@ -16,18 +16,18 @@ export function generateArticle(id)
 
 				//l'usage des backticks >>> ` <<< permet d'utiliser des chaînes de caractères multi-lignes + fonctionnalité d'interpolation ${ exemple }
 				res += `
-				<div class="col-md-6 col-lg-4">
-					<div class="card mb-3">
+				<div class="col-md-6 col-lg-4 mb-3">
+					<div class="card h-100">
 						<img src="${ article.image }" class="card-img-top" alt="${ article.name }">
 						<div class="card-body">
 							<h5 class="card-title">${ article.name }</h5>
 							<p class="card-text">${ article.description }</p>
 						</div>
 						<div class="card-footer">
-							<div class="row justify-content-around">
-								<div class="text-muted align-self-center col-">${ article.price } €</div>
-								<input type="number" class="form-control col- w-25" min="1" max="9" value="1">
-								<button type="button" class="btn btn-primary btn-add-to-cart col-6" data-set="">Ajouter <i class="fas fa-cart-plus"></i></button>
+							<div class="row justify-content-around row-cols-2">
+								<div class="text-muted align-self-center col-6 text-center">${ article.price } €</div>
+								<input type="number" class="form-control col-4 " min="1" max="9" value="1">
+								<button type="button" class="btn btn-primary btn-add-to-cart mt-2 col-11" data-set="">Ajouter<i class="fas fa-cart-plus"></i></button>
 							</div>
 
 						</div>

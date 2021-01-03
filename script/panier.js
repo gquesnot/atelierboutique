@@ -2,17 +2,6 @@ import { catalog } from "../data/catalogue.js";
 
 export const addToCartEvent = () => {
 
-/*     //on sélectionne les boutons d'ajout aux paniers (html collection)
-    const btnAddToCartElts = document.getElementsByClassName("btn-add-to-cart");
-
-    //on transforme en array exploitable avec le spread operator >>> ... <<<
-    const btnAddToCartEltsArray = [...btnAddToCartElts];
-
-    //on ajoute sur chacun des boutons un écouteurs d'événements (ici on surveille le click du bouton)
-    btnAddToCartEltsArray.forEach( element => {
-        element.addEventListener("click", addToCart);
-    }); */
-
     $(".btn-add-to-cart").each((index, value) => {
         value.dataset.id =  index;
     });
@@ -23,7 +12,7 @@ export const addToCartEvent = () => {
 
 export const addToCart = (elem) => {
     var id  = elem.currentTarget.dataset.id;
-    var panierArray=  JSON.parse(localStorage.getItem("panier"));
+    var panierArray = JSON.parse(localStorage.getItem("panier"));
     var panierItem;
     var idx;
     
@@ -42,7 +31,7 @@ export const addToCart = (elem) => {
         panierItem = {id: id, quantity: elem.currentTarget.previousElementSibling.valueAsNumber};
         panierArray.push(panierItem);
         $('#panier').append(`
-            <li  class="container d-flex justify-content-between lh-condensed align-items-center">
+            <li  class="container d-flex justify-content-between lh-condensed align-items-center text-center">
                 <div class="w-25">
                     <img src="${catalog[id].image}" alt="${catalog[id].name}" class="img-fluid rounded">
                 </div>
@@ -55,6 +44,7 @@ export const addToCart = (elem) => {
                     <button data-id="${id}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
                 </div>
             </li>
+            <div id="divider${id}" class="dropdown-divider mt-3 mb-3"></div>
         `);
         $('#panier li button').click(removeFromCart);
 
@@ -65,7 +55,7 @@ export const addToCart = (elem) => {
         $('#panier li button').each((index, value) =>{
             if (value.dataset.id == id)
             {
-                $(value).parent().parent().find('.price')[0].textContent = 'Prix: ' + catalog[id].price * panierItem.quantity;
+                $(value).parent().parent().find('.price')[0].textContent = 'Prix: ' + catalog[id].price * panierItem.quantity + ' €';
                 $(value).parent().parent().find('.quantity')[0].textContent = 'Quantité: ' + panierItem.quantity;
 
             }
@@ -78,6 +68,7 @@ export const addToCart = (elem) => {
     }
     $(elem.target.previousElementSibling).val(1);
     localStorage.setItem("panier", JSON.stringify(panierArray));
+    cartCounter();
     ifEmptyCart();
 };
 
@@ -88,6 +79,9 @@ export const removeFromCart = (elem) => {
     var panierArray=  JSON.parse(localStorage.getItem("panier"));
 
     $(elem.currentTarget).parent().parent().remove();
+
+    $('#divider' + id).remove();
+
     panierArray.forEach((value, index) => {
         if (value.id == id)
         {
@@ -101,12 +95,14 @@ export const removeFromCart = (elem) => {
     });
 
     localStorage.setItem("panier", JSON.stringify(panierArray));
+    cartCounter();
     ifEmptyCart();
 };
 
 
 
-export const generatePanier =  () =>{
+export const generatePanier =  () => {
+    
     var panierArray = JSON.parse(localStorage.getItem("panier")) || [];
     var total = 0;
     if (panierArray != [])
@@ -119,13 +115,14 @@ export const generatePanier =  () =>{
                     </div>
                     <div class="text-decoration-none text-body">
                         <div>${catalog[value.id].name}</div>
-                        <div class="price">Prix:${catalog[value.id].price * value.quantity} €</div>
+                        <div class="price">Prix: ${catalog[value.id].price * value.quantity} €</div>
                         <div class="quantity">Quantité: ${value.quantity}</div>
                     </div>
                     <div>
                         <button data-id="${value.id}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
                     </div>
                 </li>
+                <div class="dropdown-divider mt-3 mb-3"></div>
             `);
             total += catalog[value.id].price * value.quantity;
             $('#panier li button').click(removeFromCart);
@@ -139,17 +136,33 @@ export const generatePanier =  () =>{
     }
     $('#total')[0].textContent = total;
     localStorage.setItem("panier", JSON.stringify(panierArray));
+    cartCounter();
     ifEmptyCart();
 };
 
 export const ifEmptyCart = () => {
     const panierArray = JSON.parse(localStorage.getItem("panier")) || [];
 
-
     if (!panierArray || panierArray.length < 1) {
-        
         $("#sidebar-wrapper").hide();
+        $("#sidebarCollapse").hide();
     } else {
         $("#sidebar-wrapper").show();
+        $("#sidebarCollapse").show();
     }
-}
+};
+
+const cartCounter = () => {
+    const panierArray = JSON.parse(localStorage.getItem("panier")) || [];
+    const cartCounterElt = document.getElementById("cartCounter");
+
+    let totalCart = 0;
+    console.log(panierArray);
+    if (panierArray && panierArray.length > 0) {
+        panierArray.forEach(element => {
+            console.log(Number(element.quantity));
+            totalCart += Number(element.quantity);
+        })
+        cartCounterElt.innerHTML = totalCart;
+    }
+};
