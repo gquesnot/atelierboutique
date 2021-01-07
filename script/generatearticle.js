@@ -26,7 +26,7 @@ export function generateArticle(id)
 						<div class="card-footer">
 							<div class="row justify-content-around row-cols-2">
 								<div class="text-muted align-self-center col-6 text-center">${ article.price } €</div>
-								<input type="number" class="form-control col-4 " min="1" max="9" value="1">
+								<input type="number" class="form-control col-4 disableIfEmpty" min="0" max="9" value="1" id="${ article.image.replaceAll('data/images/', '').replaceAll('.jpg', '') }">
 								<button type="button" class="btn btn-primary btn-add-to-cart mt-2 col-11" data-set="">Ajouter<i class="fas fa-cart-plus"></i></button>
 							</div>
 

@@ -23,9 +23,21 @@ export const addToCart = (elem) => {
             panierItem = value;
         }
     });
-    $('#total')[0].textContent = parseInt($('#total')[0].textContent) + (elem.currentTarget.previousElementSibling.valueAsNumber * catalog[id].price);
-    $(elem.target.previousElementSibling).attr('max' ,  $(elem.currentTarget.previousElementSibling).attr('max') - elem.currentTarget.previousElementSibling.valueAsNumber);
     
+
+    //check if max is reached even by manually entering a number
+    const isInputMax = elem.target.previousElementSibling.checkValidity();
+
+    
+    if (isInputMax) {
+        $(elem.target.previousElementSibling).attr('max' ,  $(elem.currentTarget.previousElementSibling).attr('max') - elem.currentTarget.previousElementSibling.valueAsNumber);
+    } else {
+        //if true (so > max) then value = max
+        elem.target.previousElementSibling.valueAsNumber = 9;
+    }
+
+    $('#total')[0].textContent = parseInt($('#total')[0].textContent) + (elem.currentTarget.previousElementSibling.valueAsNumber * catalog[id].price);
+
     if (panierItem == undefined)
     {   
         panierItem = {id: id, quantity: elem.currentTarget.previousElementSibling.valueAsNumber};
@@ -51,7 +63,7 @@ export const addToCart = (elem) => {
     }
     else if (panierItem.quantity + parseInt($(elem.target.previousElementSibling).val()) <= 9){
         panierItem.quantity  += parseInt($(elem.target.previousElementSibling).val());
-        panierArray[idx]=  panierItem;
+        panierArray[idx] =  panierItem;
         $('#panier li button').each((index, value) =>{
             if (value.dataset.id == id)
             {
