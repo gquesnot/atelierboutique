@@ -24,4 +24,9 @@ $(function(){
 		}
 	});
 
+		if ($(":input").val() == 0 ){
+			$(this.nextElementSibling).prop("disabled", true).css("opacity","0.25");
+		}
+
+
 });

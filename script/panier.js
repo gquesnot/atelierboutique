@@ -36,7 +36,7 @@ export const addToCart = (elem) => {
         $(elem.currentTarget.previousElementSibling).val(9);
     }
 
-    if ($(elem.currentTarget.previousElementSibling).value != 0) {
+    if ($(elem.currentTarget.previousElementSibling).val() != 0) {
         if (panierItem == undefined)
         {   
             panierItem = {id: id, quantity: elem.currentTarget.previousElementSibling.valueAsNumber};
@@ -110,13 +110,19 @@ export const removeFromCart = (elem) => {
         if (value.id == id)
         {
             panierArray.splice(index, 1);
+
+            $($('.btn-add-to-cart').get(value.id).previousElementSibling).val(1);
+
             $($('.btn-add-to-cart').get(value.id)).prop("disabled", false);
             $($('.btn-add-to-cart').get(value.id)).css("opacity","1");
+
             $($($('.btn-add-to-cart').get(id))[0].previousElementSibling).attr('max', 9);
             $('#total')[0].textContent = parseInt($('#total')[0].textContent) - (value.quantity * catalog[id].price);
 
         }
     });
+
+
 
     localStorage.setItem("panier", JSON.stringify(panierArray));
     cartCounter();
