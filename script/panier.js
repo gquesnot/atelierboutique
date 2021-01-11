@@ -26,14 +26,14 @@ export const addToCart = (elem) => {
     
 
     //check if max is reached even by manually entering a number
-    const isInputMax = elem.target.previousElementSibling.checkValidity();
+    const isInputMax = elem.currentTarget.previousElementSibling.checkValidity();
 
     
     if (isInputMax) {
-        $(elem.target.previousElementSibling).attr('max' ,  $(elem.currentTarget.previousElementSibling).attr('max') - elem.currentTarget.previousElementSibling.valueAsNumber);
+        $(elem.currentTarget.previousElementSibling).attr('max' ,  $(elem.currentTarget.previousElementSibling).attr('max') - elem.currentTarget.previousElementSibling.valueAsNumber);
     } else {
         //if true (so > max) then value = max
-        elem.target.previousElementSibling.valueAsNumber = 9;
+        $(elem.currentTarget.previousElementSibling).val(9);
     }
 
     $('#total')[0].textContent = parseInt($('#total')[0].textContent) + (elem.currentTarget.previousElementSibling.valueAsNumber * catalog[id].price);
@@ -78,8 +78,10 @@ export const addToCart = (elem) => {
         $(elem.currentTarget).prop("disabled",true);
         $(elem.currentTarget).css("opacity", "0.25");
     }
-    $(elem.target.previousElementSibling).val(1);
+    $(elem.target.previousElementSibling).val(0);
+    $(elem.target).prop("disabled", true).css("opacity","0.25");
     localStorage.setItem("panier", JSON.stringify(panierArray));
+
     cartCounter();
     ifEmptyCart();
 };
