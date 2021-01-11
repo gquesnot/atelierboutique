@@ -146,7 +146,7 @@ export const generatePanier =  () => {
                         <button data-id="${value.id}" class="btn btn-sm btn-danger"><i class="fas fa-times"></i></button>
                     </div>
                 </li>
-                <div class="dropdown-divider mt-3 mb-3"></div>
+                <div id="divider${value.id}" class="dropdown-divider mt-3 mb-3"></div>
             `);
             total += catalog[value.id].price * value.quantity;
             $('#panier li button').click(removeFromCart);
